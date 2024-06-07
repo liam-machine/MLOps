@@ -1,0 +1,40 @@
+# The name of the bundle. run `databricks bundle schema` to see the full bundle settings schema.
+bundle:
+  name: requirements_classification
+
+variables:
+  experiment_name:
+    description: Experiment name for the model training.
+    default: /Users/${workspace.current_user.userName}/${bundle.target}-requirements_classification-experiment
+  model_name:
+    description: Model name for the model training.
+    default: requirements_classification-model
+
+include:
+  # Resources folder contains ML artifact resources for the ML project that defines model and experiment
+  # And workflows resources for the ML project including model training -> validation -> deployment,
+  # batch inference, quality monitoring, metric refresh, alerts and triggering retraining
+  - ./resources/*.yml
+
+# Deployment Target specific values for workspace
+targets:
+  dev:  # UC Catalog Name 
+    default: true
+    workspace:
+      # TODO: add dev workspace URL
+      host:
+
+
+
+  mlops_uat:
+    workspace:
+      host: https://dbc-9cafe583-f02f.cloud.databricks.com
+
+  mlops_prod:
+    workspace:
+      host: https://dbc-65a36781-206e.cloud.databricks.com
+
+  mlops_test:
+    workspace:
+      host: https://dbc-9cafe583-f02f.cloud.databricks.com
+
